@@ -1,18 +1,15 @@
-// Visual Micro is in vMicro>General>Tutorial Mode
-// 
-/*
-    Name:       Circuits.ino
-    Created:	5/17/2018 22:23:10
-    Author:     DREI\Phantom
-*/
+#include "rods.h"
+#include "ganglion.h"
+#include "horizontal.h"
+#include "glViewer.h"
 
-// Define User Types below here or use a .h file
-//
-
-
-// Define Function Prototypes that use User Types below here or use a .h file
-//
-
+//Creating the rods
+def stage(int N){
+  for (int i;i<N;i++){
+    rods(Ai);
+  }
+}
+stage(29);
 
 // Define Functions below here or use other .ino or cpp files
 //
@@ -20,7 +17,7 @@
 // The setup() function runs once each time the micro-controller starts
 void setup()
 {
-
+    Serial.begin(9600);
 
 }
 

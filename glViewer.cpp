@@ -4,7 +4,7 @@
 #include "glew-2.1.0/include/GL/glew.h"
 #include "glut-3.7/include/GL/glut.h"
 
-void display() {
+void glViewer::displayInit() {
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Set background color to black and opaque
 	glClear(GL_COLOR_BUFFER_BIT);         // Clear the color buffer
 
@@ -24,7 +24,7 @@ void display() {
 
 
 
-int main(){
+int glViewer::displayOut(){
 	glutInit(&argc, argv);                 // Initialize GLUT
 	glutCreateWindow("OpenGL Setup Test"); // Create a window with the given title
 	glutInitWindowSize(320, 320);   // Set the window's initial width & height

@@ -1,21 +1,14 @@
-#ifndef 1
-#define
+#ifndef __glViewer_H__INCLUDED
+#define __glViewer_H__INCLUDED
 class glViewer
 {
 public:
 	glViewer();
-	~glViewer();
-
+	void displayInit();
+  void displayOut();
 private:
 
 };
 
-glViewer::glViewer()
-{
-}
-
-glViewer::~glViewer()
-{
-}
 #endif // !1
 
