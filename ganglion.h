@@ -5,6 +5,7 @@
 
 class ganglion {
 public:
+  void ganglion(rods cell, horizontal field);
 	void addCenter(rods receptor);
 	void addHorizontal(horizontal cell);
 	int calcRate();

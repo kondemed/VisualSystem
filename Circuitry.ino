@@ -3,16 +3,23 @@
 #include "horizontal.h"
 #include "glViewer.h"
 
+#define GANGLIA 12
+#define RODS 28
+
 //Creating the rods
-def stage(int N){
+def stageRods(int N){
   for (int i;i<N;i++){
     rods(Ai);
   }
 }
-stage(29);
+def stageGanglia(int N){
+  for (int i;i<N;i++){
+    ganglia.addCenter(rod);
+    ganglia
+  }
+}
+stageRods(RODS);
 
-// Define Functions below here or use other .ino or cpp files
-//
 
 // The setup() function runs once each time the micro-controller starts
 void setup()
