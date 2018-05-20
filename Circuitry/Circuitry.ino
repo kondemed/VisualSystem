@@ -7,14 +7,20 @@
 #include "horizontal.h"
 #include "glViewer.h"
 
+//Global values
 #define GANGLIA 12
 #define RODS 28
 
-//Build the necessary cells
+//Store the classes
+std::<array> rods[RODS-1];
+std::<array> ganglia[GANGLIA-1];
+std::<array> horizontal[GANGLIA-1];
+
+//Functions to build the necessary cells
 //Create the rods
 void stageRods(int N){
   for (int i;i<N;i++){
-    rodsi(Ai);
+    rods[i].initialize(Ai);
   }
 }
 //Create the Horizontal cells. Row# determines the algorithm used
