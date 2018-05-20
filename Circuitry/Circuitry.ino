@@ -25,7 +25,14 @@ void stageRods(int N){
 }
 //Create the Horizontal cells. Row# determines the algorithm used
 void stageHorizontalRow1(rods cell){
-  
+  int i = 0;
+  for (i; i<2; i++){
+    horizontal.addRecpt(rods[i]);
+  }
+    horizontal.addRecpt(rods[i+3];
+    horizontal.addRecpt(rods[i+2];
+    horizontal.addRecpt(rods[i+7];
+  //for (int i+3; i<
 }
 void stageHorizontalRow2(){
   
