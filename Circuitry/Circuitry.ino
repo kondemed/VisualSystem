@@ -10,21 +10,40 @@
 #define GANGLIA 12
 #define RODS 28
 
-//Creating the rods
-def stageRods(int N){
+//Build the necessary cells
+//Create the rods
+void stageRods(int N){
   for (int i;i<N;i++){
-    rods(Ai);
+    rodsi(Ai);
   }
 }
-def stageGanglia(int N){
+//Create the Horizontal cells. Row# determines the algorithm used
+void stageHorizontalRow1(rods cell){
+  
+}
+void stageHorizontalRow2(){
+  
+}
+
+void stageGanglia(int N, rods cell, horizontal surround){
   for (int i;i<N;i++){
-    ganglia.addCenter(rod);
-    ganglia
+    int R = 8 + i;
+    ganglion gangliai.addCenter(rodsR);
+    gangliai.addHorizontal(surround);
   }
 }
+
 stageRods(RODS);
+horizontal horizon0 = horizontal.addRecpt(A0);
+horizon0.addRecpt(A1);
+horizon0.addRecpt(A2);
+horizon0.addRecpt(A7);
+horizon0.addRecpt(A9);
+horizon0.addRecpt(A11);
+horizon0.addRecpt(A12);
+horizon0.addRecpt(A13);
 
-
+stageGanglia(ganglion0, A8, horizon0);
 // The setup() function runs once each time the micro-controller starts
 void setup()
 {
