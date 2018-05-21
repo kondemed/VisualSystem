@@ -3,42 +3,64 @@
 #include <unwind-cxx.h>
 #include <utility.h>
 
-#include "rods.h"
+
+//#include "rods.h"
 #include "ganglion.h"
 #include "horizontal.h"
 //#include "glViewer.h"
 
 //Global values
+#define CONTROL0 5    
+#define CONTROL1 4
+#define CONTROL2 3
+#define CONTROL3 2
 #define GANGLIA 13
 #define RODS 29
+#define SURROUND_WEIGHT 1
+#define TARE 42
 
 //Store the classes
-std::<array> rods[RODS];
-std::<array> ganglia[GANGLIA];
-std::<array> horizontal[GANGLIA];
+int rods[RODS];
+ganglion ganglia[GANGLIA];
+horizontal horizontal[GANGLIA];
+int baselines[RODS];
 
 //Functions to build the necessary cells
 //Create the rods
-void stageRods(int N){
+/*void stageRods(int N){
   for (int i=0;i<N;i++){
     rods[i].initialize(Ai);
   }
-}
-//Create the Horizontal cells. Row# determines the algorithm used
+}*/
+//Create the Horizontal cells. 
 void initHorizontal(int i){
-    horizontal[i].addRecpt(rods[i]);
-    horizontal[i].addRecpt(rods[i+1];
-    horizontal[i].addRecpt(rods[i+3];
-    horizontal[i].addRecpt(rods[i+5];
-    horizontal[i].addRecpt(rods[i+12];
-    horizontal[i].addRecpt(rods[i+13];
+    horizontal[i].addRecpt(rods[i],0);
+    horizontal[i].addRecpt(rods[i+1],1);
+    Serial.println(rods[i+1]);
+    horizontal[i].addRecpt(rods[i+3],2);
+    horizontal[i].addRecpt(rods[i+5],3);
+    horizontal[i].addRecpt(rods[i+12],4);
+    horizontal[i].addRecpt(rods[i+13],5);
 }
 void stageHorizontal(int N){
   for (int i = 0;i<N;i++){
     initHorizontal(i);
   }
 }
+void updateHorizontal(){
+  for (int i=0;i<GANGLIA;i++){
+    initHorizontal(i);
+  }
 
+}
+void stageGanglia(int N, int M){
+  for (int i=0;i<N;i++){
+    M += i;
+    //ganglia[i](rods[M],ganglia[i];
+    ganglia[i].addCenter(rods[M]);
+    ganglia[i].addHorizontal(horizontal[i]);
+  }
+}
 void recordRaw(){
   for (byte i=0; i<16; i++){
     
@@ -55,32 +77,68 @@ void recordRaw(){
   }
 }
 
-void stageGanglia(int N, int M){
-  for (int i=0;i<N;i++){
-    M += i;
-    ganglion ganglia[i];
-    ganglia[i].addCenter(rods[M]);
-    ganglia[i].addHorizontal(surround[i]);
+void tare(){
+  Serial.println("*** TARE ***");
+  delay(1000);
+  recordRaw();
+  for (byte i=0; i<RODS; i++){
+    baselines[i] = rods[i];
   }
 }
 
-recordRaw();
-stageHorizontal(GANGLIA);
+void printRaw(){
+  for (byte i=0; i<RODS; i++){
+    if (i==0 || i==5 || i==11 || i==18 || i==24){
+      Serial.println(" / ");
+    } 
+    Serial.print(" / ");
+    Serial.print(rods[i]);
+  }
+  Serial.println();
+}
 
-stageGanglia(4, 6);
-stageGanglia(5, 12);
-stageGanglia(4, 19);
+
+
 
 // The setup() function runs once each time the micro-controller starts
 void setup()
 {
-    Serial.begin(9600);
+  pinMode(CONTROL0, OUTPUT);
+  pinMode(CONTROL1, OUTPUT);
+  pinMode(CONTROL2, OUTPUT);
+  pinMode(CONTROL3, OUTPUT);
+  pinMode(TARE, INPUT);
+  
+  Serial.begin(9600);
 
+  tare();
+  recordRaw();
+  stageHorizontal(GANGLIA);
+
+  stageGanglia(4, 6);
+  stageGanglia(5, 12);
+  stageGanglia(4, 19);
 }
 
 // Add the main program code into the continuous loop() function
 void loop()
 {
-
+  if (digitalRead(TARE) == HIGH){
+    tare();
+  }
+  for (int i=0;i<GANGLIA;i++){
+    int out = ganglia[i].calcRate();
+    Serial.print(out);
+  }
+  recordRaw();
+//  recordNormalized(); 
+//  normalize(25);
+//  printNormalized();
+//  calculateGanglia();
+//  printGanglia();
+//  printRaw();
+  //printRodsRawPy();
+  updateHorizontal();
+  delay(1000);
 
 }

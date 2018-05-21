@@ -1,18 +1,27 @@
 #include "horizontal.h"
-#include <deque>
-#include "rods.h"
+#include <StandardCplusplus.h>
+#include <system_configuration.h>
+#include <unwind-cxx.h>
+#include <utility.h>
+#include <Arduino.h>
+//#include <deque>
+//#include "rods.h"
 
-void reset(){
-  surround.clear();
-}
-void horizontal::addRecpt(rods cell) {
-	surround.push_back(cell);
+
+void horizontal::addRecpt(int cell, int k) {
+	surround[k] = cell;
 }
 
 int horizontal::combineVal()
 {
-	for (int i=0; i<surround.size(); i++) {
-		totalVal += surround[i].read();
+  totalVal = 0;
+  Serial.print("Horizontal values are: ");
+	for (int i=0; i<6; i++) {
+		totalVal += surround[i];
+    Serial.print(totalVal);
+    Serial.print(" ");
 	}
 	return totalVal;
 }
+
+

@@ -1,4 +1,4 @@
-#include <Arduino.h>
+/*#include <Arduino.h>
 #include "rods.h"
 
 rods::rods(const uint8_t pin)
@@ -18,4 +18,4 @@ int rods::read()
 	outputVal = analogRead(rodPin);
 	return outputVal;
 
-}
+}*/

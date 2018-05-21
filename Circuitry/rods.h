@@ -1,4 +1,4 @@
-#ifndef __rods_h_INCLUDED__
+/*#ifndef __rods_h_INCLUDED__
 #define __rods_h_INCLUDED__
 class rods {
 public:
@@ -10,4 +10,4 @@ private:
 	int sensorVal;
 	int outputVal;
 };
-#endif // !__rods_h_INCLUDED__
+#endif // !__rods_h_INCLUDED__*/
