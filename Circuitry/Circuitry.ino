@@ -1,11 +1,12 @@
-#include <utility.h>
-#include <unwind-cxx.h>
-#include <system_configuration.h>
 #include <StandardCplusplus.h>
+#include <system_configuration.h>
+#include <unwind-cxx.h>
+#include <utility.h>
+
 #include "rods.h"
 #include "ganglion.h"
 #include "horizontal.h"
-#include "glViewer.h"
+//#include "glViewer.h"
 
 //Global values
 #define GANGLIA 12
@@ -24,7 +25,7 @@ void stageRods(int N){
   }
 }
 //Create the Horizontal cells. Row# determines the algorithm used
-void stageHorizontalRow1(rods cell){
+void stageHorizontalRow1(){
   int i = 0;
   for (i; i<2; i++){
     horizontal.addRecpt(rods[i]);
@@ -32,15 +33,18 @@ void stageHorizontalRow1(rods cell){
     horizontal.addRecpt(rods[i+3];
     horizontal.addRecpt(rods[i+2];
     horizontal.addRecpt(rods[i+7];
+    horizontal.addRecpt(rods[i+1];
+    
   //for (int i+3; i<
 }
 void stageHorizontalRow2(){
   
 }
 
-void stageGanglia(int N, rods cell, int M, horizontal surround){
+void stageGanglia(int N, int M){
   for (int i=0;i<N;i++){
     M += i;
+    ganglion ganglia[i];
     ganglia[i].addCenter(rods[M]);
     ganglia[i].addHorizontal(surround[i]);
   }
@@ -59,9 +63,9 @@ horizon0.addRecpt(A13);
 ganglion0.addCenter(A6);
 */
 
-stageGanglia(4, ganglia[], rods[], 6, horizontal[]);
-stageGanglia(5, ganglia[], rods[], 12, horizontal[]);
-stageGanglia(4, ganglia[], rods[], 19, horizontal[]);
+stageGanglia(4, 6);
+stageGanglia(5, 12);
+stageGanglia(4, 19);
 
 // The setup() function runs once each time the micro-controller starts
 void setup()

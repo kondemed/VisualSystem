@@ -1,8 +1,8 @@
 #include "glViewer.h"
 #include "rods.h"
 #include "ganglion.h"
-#include "glew-2.1.0/include/GL/glew.h"
-#include "glut-3.7/include/GL/glut.h"
+//#include "glew-2.1.0/include/GL/glew.h"
+//#include "glut-3.7/include/GL/glut.h"
 
 void glViewer::displayInit() {
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Set background color to black and opaque

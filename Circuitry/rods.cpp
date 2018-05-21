@@ -1,5 +1,4 @@
 #include "rods.h"
-#include "Dependencies/avr/cores/arduino/Arduino.h"
 
 rods::rods(const uint8_t pin)
 {

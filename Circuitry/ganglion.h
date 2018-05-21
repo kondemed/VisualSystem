@@ -2,6 +2,7 @@
 #define __ganglion_H__INCLUDED
 #include "horizontal.h"
 #include "rods.h"
+#include <deque>
 
 class ganglion {
 public:
