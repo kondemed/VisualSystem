@@ -1,4 +1,4 @@
-#ifndef __glViewer_H__INCLUDED
+/*#ifndef __glViewer_H__INCLUDED
 #define __glViewer_H__INCLUDED
 class glViewer
 {
@@ -11,4 +11,4 @@ private:
 };
 
 #endif // !1
-
+*/

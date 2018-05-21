@@ -9,13 +9,13 @@
 //#include "glViewer.h"
 
 //Global values
-#define GANGLIA 12
-#define RODS 28
+#define GANGLIA 13
+#define RODS 29
 
 //Store the classes
-std::<array> rods[RODS-1];
-std::<array> ganglia[GANGLIA-1];
-std::<array> horizontal[GANGLIA-1];
+std::<array> rods[RODS];
+std::<array> ganglia[GANGLIA];
+std::<array> horizontal[GANGLIA];
 
 //Functions to build the necessary cells
 //Create the rods
@@ -25,20 +25,34 @@ void stageRods(int N){
   }
 }
 //Create the Horizontal cells. Row# determines the algorithm used
-void stageHorizontalRow1(){
-  int i = 0;
-  for (i; i<2; i++){
-    horizontal.addRecpt(rods[i]);
-  }
-    horizontal.addRecpt(rods[i+3];
-    horizontal.addRecpt(rods[i+2];
-    horizontal.addRecpt(rods[i+7];
-    horizontal.addRecpt(rods[i+1];
-    
-  //for (int i+3; i<
+void initHorizontal(int i){
+    horizontal[i].addRecpt(rods[i]);
+    horizontal[i].addRecpt(rods[i+1];
+    horizontal[i].addRecpt(rods[i+3];
+    horizontal[i].addRecpt(rods[i+5];
+    horizontal[i].addRecpt(rods[i+12];
+    horizontal[i].addRecpt(rods[i+13];
 }
-void stageHorizontalRow2(){
-  
+void stageHorizontal(int N){
+  for (int i = 0;i<N;i++){
+    initHorizontal(i);
+  }
+}
+
+void recordRaw(){
+  for (byte i=0; i<16; i++){
+    
+    //The following 4 commands set the correct logic for the control pins to select the desired input
+    digitalWrite(CONTROL0, (i&15)>>3); 
+    digitalWrite(CONTROL1, (i&7)>>2);  
+    digitalWrite(CONTROL2, (i&3)>>1);  
+    digitalWrite(CONTROL3, (i&1));     
+
+    rods[i] = analogRead(A0); // load light vals from M0 into array
+    if (i<13){
+      rods[i+16] = analogRead(A1); // load light vals from M1 into array
+    } 
+  }
 }
 
 void stageGanglia(int N, int M){
@@ -50,18 +64,8 @@ void stageGanglia(int N, int M){
   }
 }
 
-stageRods(RODS);
-/* One example receptive field
-horizontal horizon0;
-horizon0.addRecpt(A0);
-horizon0.addRecpt(A1);
-horizon0.addRecpt(A2);
-horizon0.addRecpt(A5);
-horizon0.addRecpt(A7);
-horizon0.addRecpt(A12);
-horizon0.addRecpt(A13);
-ganglion0.addCenter(A6);
-*/
+recordRaw();
+stageHorizontal(GANGLIA);
 
 stageGanglia(4, 6);
 stageGanglia(5, 12);

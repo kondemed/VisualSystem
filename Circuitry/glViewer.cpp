@@ -1,4 +1,4 @@
-#include "glViewer.h"
+/*#include "glViewer.h"
 #include "rods.h"
 #include "ganglion.h"
 //#include "glew-2.1.0/include/GL/glew.h"
@@ -33,3 +33,4 @@ int glViewer::displayOut(){
 	glutMainLoop();           // Enter the infinitely event-processing loop
 	return 0;
 }
+*/

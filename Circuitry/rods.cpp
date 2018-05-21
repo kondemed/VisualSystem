@@ -1,3 +1,4 @@
+#include <Arduino.h>
 #include "rods.h"
 
 rods::rods(const uint8_t pin)

@@ -2,7 +2,9 @@
 #include <deque>
 #include "rods.h"
 
-
+void reset(){
+  surround.clear();
+}
 void horizontal::addRecpt(rods cell) {
 	surround.push_back(cell);
 }
