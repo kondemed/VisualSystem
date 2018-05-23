@@ -34,33 +34,84 @@ int baselines[RODS];
 }*/
 //Create the Horizontal cells. 
 void initHorizontal(int i){
+  if(i<4){ //Range 0 to 3
+    //Top
     horizontal[i].addRecpt(rods[i],0);
     horizontal[i].addRecpt(rods[i+1],1);
-    Serial.println(rods[i+1]);
+    //Next to center
     horizontal[i].addRecpt(rods[i+3],2);
     horizontal[i].addRecpt(rods[i+5],3);
+    //Bottom
     horizontal[i].addRecpt(rods[i+12],4);
     horizontal[i].addRecpt(rods[i+13],5);
+  }
+  else if(i>=4 && i<9){ //Range 4 to 8
+    //Top
+    horizontal[i].addRecpt(rods[i+1],0);
+    horizontal[i].addRecpt(rods[i+2],1);
+    //Next to center
+    horizontal[i].addRecpt(rods[i+7],2);
+    horizontal[i].addRecpt(rods[i+9],3);
+    //Bottom
+    horizontal[i].addRecpt(rods[i+14],4);
+    horizontal[i].addRecpt(rods[i+15],5);    
+  }
+  else{ //Range 9 to 12
+    //Top
+    horizontal[i].addRecpt(rods[i+3],0);
+    horizontal[i].addRecpt(rods[i+4],1);
+    //Next to center
+    horizontal[i].addRecpt(rods[i+9],2);
+    horizontal[i].addRecpt(rods[i+11],3);
+    //Bottom
+    horizontal[i].addRecpt(rods[i+15],4);
+    horizontal[i].addRecpt(rods[i+16],5);
+  }
 }
-void stageHorizontal(int N){
+
+void stageHorizontals(int N){
   for (int i = 0;i<N;i++){
     initHorizontal(i);
   }
 }
+
 void updateHorizontal(){
   for (int i=0;i<GANGLIA;i++){
     initHorizontal(i);
   }
-
 }
-void stageGanglia(int N, int M){
-  for (int i=0;i<N;i++){
-    M += i;
-    //ganglia[i](rods[M],ganglia[i];
-    ganglia[i].addCenter(rods[M]);
-    ganglia[i].addHorizontal(horizontal[i]);
+
+//Create the Ganglion Cells
+void stageGanglia(){
+  for (int i=0;i<GANGLIA;i++){
+    if (i<4){
+      ganglia[i].addCenter(rods[i+6]);
+    }
+    else if (i=4 && i<9){
+      ganglia[i].addCenter(rods[i+8]);
+    }
+    else{
+      ganglia[i].addCenter(rods[i+10]);
+    }
+  }  
+}
+
+void printRate(){
+  for (int i=0;i<GANGLIA;i++){
+    int out = ganglia[i].calcRate();
+    Serial.print(out);
+    Serial.print(" ");
   }
 }
+
+//Global update function
+void updateCells(){
+  recordRaw();
+  updateHorizontal();
+  updateGanglia(); 
+}
+
+//Populate Rods
 void recordRaw(){
   for (byte i=0; i<16; i++){
     
@@ -77,6 +128,7 @@ void recordRaw(){
   }
 }
 
+//Establish a baseline
 void tare(){
   Serial.println("*** TARE ***");
   delay(1000);
@@ -113,11 +165,8 @@ void setup()
 
   tare();
   recordRaw();
-  stageHorizontal(GANGLIA);
-
-  stageGanglia(4, 6);
-  stageGanglia(5, 12);
-  stageGanglia(4, 19);
+  stageHorizontals(GANGLIA);
+  stageGanglia();
 }
 
 // Add the main program code into the continuous loop() function
@@ -126,11 +175,8 @@ void loop()
   if (digitalRead(TARE) == HIGH){
     tare();
   }
-  for (int i=0;i<GANGLIA;i++){
-    int out = ganglia[i].calcRate();
-    Serial.print(out);
-  }
-  recordRaw();
+  printRate();
+  Serial.println("");
 //  recordNormalized(); 
 //  normalize(25);
 //  printNormalized();
@@ -138,7 +184,7 @@ void loop()
 //  printGanglia();
 //  printRaw();
   //printRodsRawPy();
-  updateHorizontal();
+  updateCells();
   delay(1000);
 
 }

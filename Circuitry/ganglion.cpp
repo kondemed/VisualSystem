@@ -20,7 +20,7 @@ void ganglion::addHorizontal(horizontal cell) {
 	surround = cell;
 }
 int ganglion::calcRate(){
-  float adjust = 0.1;
+  float adjust = 0.1f;
   int nega, posi;
 	nega = floor(surround.combineVal() * adjust);
 	posi = center;
