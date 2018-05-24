@@ -7,10 +7,10 @@ import time
 master = Tk()
 top = Toplevel()
 
-w = Canvas(master, width=600, height=400)
-w.pack()
-w2 = Canvas(top, width=600, height=400)
-w2.pack()
+wind1 = Canvas(master, width=600, height=400)
+wind1.pack()
+wind2 = Canvas(top, width=600, height=400)
+wind2.pack()
 
 arr = [None] * 40
 arr2 = [None] * 40
@@ -38,37 +38,37 @@ for row in range(5):
 		# top & bottom rows
 		if row==0 or row==4:
 			if col != 0 and col!= 6:
-				arr[row+col*5] = w.create_rectangle(col*70+5+offset, row*70+5, col*70+70+offset, row*70+70, fill="green")
+				arr[row+col*5] = wind1.create_rectangle(col*70+5+offset, row*70+5, col*70+70+offset, row*70+70, fill="green")
 
 		# intermediate rows
 		elif row==1 or row==3:
 			if col!= 0:
-				arr[row+col*5] = w.create_rectangle(col*70+5+offset, row*70+5, col*70+70+offset, row*70+70, fill="green")
+				arr[row+col*5] = wind1.create_rectangle(col*70+5+offset, row*70+5, col*70+70+offset, row*70+70, fill="green")
 				if col != 1 and col != 6:
-					arr2[row+col*5] = w2.create_rectangle(col*70+5+offset, row*70+5, col*70+70+offset, row*70+70, fill="blue") 
+					arr2[row+col*5] = wind2.create_rectangle(col*70+5+offset, row*70+5, col*70+70+offset, row*70+70, fill="blue") 
 
 		# middle row
 		else:
-			arr[row+col*5] = w.create_rectangle(col*70+5+offset, row*70+5, col*70+70+offset, row*70+70, fill="green")
+			arr[row+col*5] = wind1.create_rectangle(col*70+5+offset, row*70+5, col*70+70+offset, row*70+70, fill="green")
 			if col != 0 and col != 6:
-				arr2[row+col*5] = w2.create_rectangle(col*70+5+offset, row*70+5, col*70+70+offset, row*70+70, fill="blue") 
+				arr2[row+col*5] = wind2.create_rectangle(col*70+5+offset, row*70+5, col*70+70+offset, row*70+70, fill="blue") 
 
-w.update()
-w2.update()
+wind1.update()
+wind2.update()
 
-print "ARRAY! " 
+print ("ARRAY! ") 
 while None in arr:
 	arr.remove(None)
 arr = sorted(arr)
-print arr
-print "\n\n\n"
+print (arr)
+print ("\n\n\n")
 
-print "ARRAY 2! " 
+print ("ARRAY 2! " )
 while None in arr2:
 	arr2.remove(None)
 arr2 = sorted(arr2)
-print arr2
-print "\n\n\n"
+print (arr2)
+print ("\n\n\n")
 
 
 ser = serial.Serial(serial_port, baud_rate)
@@ -90,19 +90,19 @@ while True:
 		    		rods[i] = int(incoming[i])
 		    		val = rods[i]
 			    	shade_idx = val/100
-			    	w.itemconfig(arr[i], fill=shades[shade_idx])
+			    	wind1.itemconfig(arr[i], fill=shades[shade_idx])
 		    	else:
 		    		new_idx = i-(len(rods)+1)
 		    		ganglia[new_idx] = int(incoming[i])
 		    		val = ganglia[new_idx]
 		    		shade_idx = val/5 + 15
-		    		w2.itemconfig(arr2[new_idx], fill=shades2[shade_idx])
+		    		wind2.itemconfig(arr2[new_idx], fill=shades2[shade_idx])
 	    	except:
-		    	print 'nope: {0}'.format(incoming[i])
+		    	print ('nope: {0}'.format(incoming[i]))
 		    	pass
 
-	print "RODS: {0}".format(rods)
-	print "GANGLIA: {0}".format(ganglia)
+	print ("RODS: {0}".format(rods))
+	print ("GANGLIA: {0}".format(ganglia))
 
 
     	# try:
@@ -110,7 +110,7 @@ while True:
 	    # 	val = rods[i]
 	    # 	print val
 	    # 	shade_idx = val/100
-	    # 	w.itemconfig(arr[i], fill=shades[shade_idx])
+	    # 	wind1.itemconfig(arr[i], fill=shades[shade_idx])
 	    # 	print "rods! {0}".format(rods)
 
     	# except:
@@ -131,10 +131,10 @@ while True:
 	# 			ganglia[i]  = (CENTER_WEIGHT * rods[i+10]) - SURROUND_WEIGHT * (rods[i+3] + rods[i+4] + rods[i+9] + rods[i+11] + rods[i+15] + rods[i+16])
 
 	# 		# print ganglia[i]
-	# 		# w2.itemconfig(arr2[i], fill=ganglia[i]/100)
+	# 		# wind2.itemconfig(arr2[i], fill=ganglia[i]/100)
 
-    w.update()
-    w2.update()
+    wind1.update()
+    wind2.update()
 
 
 

@@ -183,14 +183,26 @@ void loop(){
   if (digitalRead(TARE) == HIGH){
     tare();
   }
-  printRate();
+//  printRate();
 //  recordNormalized(); 
 //  normalize(25);
 //  printNormalized();
-//  calculateGanglia();
 
-  //printRodsRawPy();
+  printRodsRawPy();
   updateCells();
   delay(1000);
 
+}
+
+void printRodsRawPy(){
+  for (byte i=0; i<RODS; i++){
+    Serial.print(rods[i]);
+    Serial.print(",");
+  }
+  Serial.print("*,");
+  for (byte i=0; i<GANGLIA; i++){
+    Serial.print(ganglia[i].calcRate());
+    Serial.print(",");
+  }
+  Serial.println();
 }
