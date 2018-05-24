@@ -5,10 +5,14 @@
 
 class horizontal {
 public:
-	void addRecpt(int cell, int k);
+  horizontal();    //Default Constructor
+  horizontal(int field);    //Secondary Constructor
+	void addRecpt(int cell, int pos);
 	int combineVal();
 private:
-	int surround[6];
+	//rods surround[];
+	int surround[];
+  int fieldSize;
 	int totalVal;
 };
 #endif

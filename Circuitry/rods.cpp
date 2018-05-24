@@ -1,21 +1,29 @@
-/*#include <Arduino.h>
+/* Rods class functions
+ *  Not used in final code
+ *  Uncomment if your implementation
+ *  uses it.
+ */
+ 
+/*
+#include <Arduino.h>
 #include "rods.h"
 
-rods::rods(const uint8_t pin)
-{
-	rodPin = pin;
+rods::rods(){   //Default Constructor
 }
 
-void rods::initialize(int pin)
-{
-	rodPin = pin;
-	sensorVal = 0;
-	outputVal = 0;
+rods::rods(const uint8_t pin){   //Secondary Constructor
+  rodPin = pin;
+  outputVal = analogRead(rodPin);
 }
 
-int rods::read()
-{
+rods::init(const uint8_t pin){
+  rodPin = pin;
+  outputVal = analogRead(rodPin);
+}
+
+int rods::read(){
 	outputVal = analogRead(rodPin);
 	return outputVal;
 
-}*/
+}
+*/

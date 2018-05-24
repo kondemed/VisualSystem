@@ -1,28 +1,40 @@
+/*  Written by Blades Walker and Andrew Woosnam
+ *Commented out code are for rods as a class. Our hardware setup prevented us
+ *from using the rods class because the multiplexor changes how the pins are  
+ *read.
+ */
+
 //#include "rods.h"
 #include "ganglion.h"
 #include "horizontal.h"
 
-//Global values
+//Convenient names
 #define CONTROL0 5    
 #define CONTROL1 4
 #define CONTROL2 3
 #define CONTROL3 2
+
+//Global values for modularity
 #define RODS 29
 #define TARE 42
 #define GANGLIA 13
-//#define HORIZONTAL 13
+#define HORIZONTAL 13 
+#define SURROUND_WEIGHT 0.01
+//#define FIELD 6        //Uncomment if adjusting the surrounding field size
+
 
 //Store the classes
 int rods[RODS];
+float ganglion::adjust = SURROUND_WEIGHT;
 ganglion ganglia[GANGLIA];
-horizontal horizontal[GANGLIA];
+horizontal horizon[HORIZONTAL];
 int baselines[RODS];
 
 //Functions to build the necessary cells
-//Create the rods
-/*void stageRods(int N){
+/*Create the rods of the rods class
+void stageRods(int N){
   for (int i=0;i<N;i++){
-    rods[i].initialize(Ai);
+    rods[i].init(Ai);
   }
 }*/
 
@@ -30,36 +42,36 @@ int baselines[RODS];
 void initHorizontal(int i){
   if(i<4){ //Range 0 to 3
     //Top
-    horizontal[i].addRecpt(rods[i],0);
-    horizontal[i].addRecpt(rods[i+1],1);
+    horizon[i].addRecpt(rods[i],0);
+    horizon[i].addRecpt(rods[i+1],1);
     //Next to center
-    horizontal[i].addRecpt(rods[i+3],2);
-    horizontal[i].addRecpt(rods[i+5],3);
+    horizon[i].addRecpt(rods[i+3],2);
+    horizon[i].addRecpt(rods[i+5],3);
     //Bottom
-    horizontal[i].addRecpt(rods[i+12],4);
-    horizontal[i].addRecpt(rods[i+13],5);
+    horizon[i].addRecpt(rods[i+12],4);
+    horizon[i].addRecpt(rods[i+13],5);
   }
   else if(i>=4 && i<9){ //Range 4 to 8
     //Top
-    horizontal[i].addRecpt(rods[i+1],0);
-    horizontal[i].addRecpt(rods[i+2],1);
+    horizon[i].addRecpt(rods[i+1],0);
+    horizon[i].addRecpt(rods[i+2],1);
     //Next to center
-    horizontal[i].addRecpt(rods[i+7],2);
-    horizontal[i].addRecpt(rods[i+9],3);
+    horizon[i].addRecpt(rods[i+7],2);
+    horizon[i].addRecpt(rods[i+9],3);
     //Bottom
-    horizontal[i].addRecpt(rods[i+14],4);
-    horizontal[i].addRecpt(rods[i+15],5);    
+    horizon[i].addRecpt(rods[i+14],4);
+    horizon[i].addRecpt(rods[i+15],5);    
   }
   else{ //Range 9 to 12
     //Top
-    horizontal[i].addRecpt(rods[i+3],0);
-    horizontal[i].addRecpt(rods[i+4],1);
+    horizon[i].addRecpt(rods[i+3],0);
+    horizon[i].addRecpt(rods[i+4],1);
     //Next to center
-    horizontal[i].addRecpt(rods[i+9],2);
-    horizontal[i].addRecpt(rods[i+11],3);
+    horizon[i].addRecpt(rods[i+9],2);
+    horizon[i].addRecpt(rods[i+11],3);
     //Bottom
-    horizontal[i].addRecpt(rods[i+15],4);
-    horizontal[i].addRecpt(rods[i+16],5);
+    horizon[i].addRecpt(rods[i+15],4);
+    horizon[i].addRecpt(rods[i+16],5);
   }
 }
 
@@ -70,7 +82,7 @@ void stageHorizontals(int N){
 }
 
 void updateHorizontals(){
-  for (int i=0;i<GANGLIA;i++){
+  for (int i=0;i<HORIZONTAL;i++){
     initHorizontal(i);
   }
 }
@@ -80,15 +92,15 @@ void stageGanglia(){
   for (int i=0;i<GANGLIA;i++){
     if (i<4){
       ganglia[i].addCenter(rods[i+6]);
-      ganglia[i].addHorizon(horizontal[i]);
+      ganglia[i].addHorizon(horizon[i]);
     }
     else if (i>=4 && i<9){
       ganglia[i].addCenter(rods[i+8]);
-      ganglia[i].addHorizon(horizontal[i]);
+      ganglia[i].addHorizon(horizon[i]);
     }
     else{
       ganglia[i].addCenter(rods[i+10]);
-      ganglia[i].addHorizon(horizontal[i]);
+      ganglia[i].addHorizon(horizon[i]);
     }
   }  
 }
@@ -174,16 +186,15 @@ void setup(){
 
   tare();
   recordRaw();
-  stageHorizontals(GANGLIA);
+  stageHorizontals(HORIZONTAL);
   stageGanglia();
 }
 
-// Add the main program code into the continuous loop() function
+//Loop through code as desired
 void loop(){
   if (digitalRead(TARE) == HIGH){
     tare();
   }
-//  printRate();
 //  recordNormalized(); 
 //  normalize(25);
 //  printNormalized();
