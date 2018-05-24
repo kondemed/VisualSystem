@@ -1,28 +1,20 @@
 #include "ganglion.h"
 #include "horizontal.h"
-#include <StandardCplusplus.h>
-#include <system_configuration.h>
-#include <unwind-cxx.h>
-#include <utility.h>
 #include <math.h>
 
-/*void ganglion::ganglion(rods cell, horizontal field){
-  center = cell;
-  surround = field;
-}
-*/
+
 void ganglion::addCenter(int receptor)
 {
 	center = receptor;
 
 }
-void ganglion::addHorizontal(horizontal cell) {
+void ganglion::addHorizon(horizontal cell) {
 	surround = cell;
 }
 int ganglion::calcRate(){
-  float adjust = 0.1f;
+  float ADJUST = 0.05f;
   int nega, posi;
-	nega = floor(surround.combineVal() * adjust);
+	nega = floor(surround.combineVal() * ADJUST);
 	posi = center;
 	rate = posi - nega;
   if (rate <= 0){

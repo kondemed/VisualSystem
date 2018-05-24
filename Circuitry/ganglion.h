@@ -7,7 +7,7 @@ class ganglion {
 public:
   //void ganglion(int cell, horizontal field);
 	void addCenter(int receptor);
-	void addHorizontal(horizontal cell);
+	void addHorizon(horizontal cell);
 	int calcRate();
 private:
 	horizontal surround;

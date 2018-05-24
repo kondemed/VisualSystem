@@ -1,23 +1,16 @@
-#include <StandardCplusplus.h>
-#include <system_configuration.h>
-#include <unwind-cxx.h>
-#include <utility.h>
-
-
 //#include "rods.h"
 #include "ganglion.h"
 #include "horizontal.h"
-//#include "glViewer.h"
 
 //Global values
 #define CONTROL0 5    
 #define CONTROL1 4
 #define CONTROL2 3
 #define CONTROL3 2
-#define GANGLIA 13
 #define RODS 29
-#define SURROUND_WEIGHT 1
 #define TARE 42
+#define GANGLIA 13
+//#define HORIZONTAL 13
 
 //Store the classes
 int rods[RODS];
@@ -32,6 +25,7 @@ int baselines[RODS];
     rods[i].initialize(Ai);
   }
 }*/
+
 //Create the Horizontal cells. 
 void initHorizontal(int i){
   if(i<4){ //Range 0 to 3
@@ -75,7 +69,7 @@ void stageHorizontals(int N){
   }
 }
 
-void updateHorizontal(){
+void updateHorizontals(){
   for (int i=0;i<GANGLIA;i++){
     initHorizontal(i);
   }
@@ -86,8 +80,25 @@ void stageGanglia(){
   for (int i=0;i<GANGLIA;i++){
     if (i<4){
       ganglia[i].addCenter(rods[i+6]);
+      ganglia[i].addHorizon(horizontal[i]);
     }
-    else if (i=4 && i<9){
+    else if (i>=4 && i<9){
+      ganglia[i].addCenter(rods[i+8]);
+      ganglia[i].addHorizon(horizontal[i]);
+    }
+    else{
+      ganglia[i].addCenter(rods[i+10]);
+      ganglia[i].addHorizon(horizontal[i]);
+    }
+  }  
+}
+
+void updateGanglia(){
+  for (int i=0;i<GANGLIA;i++){
+    if (i<4){
+      ganglia[i].addCenter(rods[i+6]);
+    }
+    else if (i>=4 && i<9){
       ganglia[i].addCenter(rods[i+8]);
     }
     else{
@@ -98,6 +109,8 @@ void stageGanglia(){
 
 void printRate(){
   for (int i=0;i<GANGLIA;i++){
+    Serial.print(i);
+    Serial.print(": ");
     int out = ganglia[i].calcRate();
     Serial.print(out);
     Serial.print(" ");
@@ -107,14 +120,13 @@ void printRate(){
 //Global update function
 void updateCells(){
   recordRaw();
-  updateHorizontal();
+  updateHorizontals();
   updateGanglia(); 
 }
 
 //Populate Rods
 void recordRaw(){
   for (byte i=0; i<16; i++){
-    
     //The following 4 commands set the correct logic for the control pins to select the desired input
     digitalWrite(CONTROL0, (i&15)>>3); 
     digitalWrite(CONTROL1, (i&7)>>2);  
@@ -130,12 +142,12 @@ void recordRaw(){
 
 //Establish a baseline
 void tare(){
-  Serial.println("*** TARE ***");
   delay(1000);
   recordRaw();
   for (byte i=0; i<RODS; i++){
     baselines[i] = rods[i];
   }
+    Serial.println("*** TARE ***");
 }
 
 void printRaw(){
@@ -150,11 +162,8 @@ void printRaw(){
 }
 
 
-
-
 // The setup() function runs once each time the micro-controller starts
-void setup()
-{
+void setup(){
   pinMode(CONTROL0, OUTPUT);
   pinMode(CONTROL1, OUTPUT);
   pinMode(CONTROL2, OUTPUT);
@@ -170,19 +179,16 @@ void setup()
 }
 
 // Add the main program code into the continuous loop() function
-void loop()
-{
+void loop(){
   if (digitalRead(TARE) == HIGH){
     tare();
   }
   printRate();
-  Serial.println("");
 //  recordNormalized(); 
 //  normalize(25);
 //  printNormalized();
 //  calculateGanglia();
-//  printGanglia();
-//  printRaw();
+
   //printRodsRawPy();
   updateCells();
   delay(1000);
